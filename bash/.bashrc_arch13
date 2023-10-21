@@ -9,4 +9,4 @@ alias dl='cd ~/Downloads'
 alias db='cd ~/Dropbox'
 alias pj='cd ~/projects'
 
-alias magic='/usr/bin/bash ~/magic_trackpad > /dev/null'
+alias magic='/usr/bin/bash ~/.magic_trackpad > /dev/null'
