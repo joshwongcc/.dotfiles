@@ -1,0 +1,12 @@
+function ok { okular "$1" & }
+function here { dolphin . & }
+
+alias ls='ls --color=never --group-directories-first'
+
+alias sc='vim ~/.bashrc_arch13'
+alias bt='bluetoothctl'
+alias dl='cd ~/Downloads'
+alias db='cd ~/Dropbox'
+alias pj='cd ~/projects'
+
+alias magic='/usr/bin/bash ~/magic_trackpad > /dev/null'
