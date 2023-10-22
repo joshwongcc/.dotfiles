@@ -24,7 +24,7 @@ colorscheme slate
 highlight ColorColumn ctermbg=238
 
 if $TERM=='screen-256color'
-  set ttymouse=xterm2
+    set ttymouse=xterm2
 endif
 
 if !isdirectory($HOME."/.vim")
@@ -50,6 +50,12 @@ set swapfile
 set undodir=~/.vim/undo//
 set undofile
 
+autocmd BufReadPost,FileReadPost,BufNewFile * call
+      \ system('tmux rename-window ' . expand('%:t'))
+
+autocmd VimLeave * call
+      \ system('tmux setw automatic-rename')
+
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -59,21 +65,18 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
       \| PlugInstall --sync | source $MYVIMRC
       \| endif
 
-autocmd BufReadPost,FileReadPost,BufNewFile * call
-      \ system('tmux rename-window ' . expand('%:t'))
-
-autocmd VimLeave * call
-      \ system('tmux setw automatic-rename')
-
 call plug#begin()
-  Plug 'sheerun/vim-polyglot'
-  Plug 'prabirshrestha/vim-lsp'
-  Plug 'mattn/vim-lsp-settings'
-  Plug 'prabirshrestha/asyncomplete.vim'
-  Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'mattn/vim-lsp-settings'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    Plug 'preservim/nerdtree'
+    Plug 'mbbill/undotree'
+    Plug 'tpope/vim-fugitive'
 call plug#end()
 
 function! s:on_lsp_buffer_enabled() abort
@@ -93,10 +96,37 @@ function! s:on_lsp_buffer_enabled() abort
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-    
 endfunction
 
 augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+
+let g:NERDTreeQuitOnOpen = 1
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+nnoremap J mzJ`z
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+xnoremap <leader>p "_dP
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+vnoremap <leader>y "+y
+nnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+
+nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+nnoremap <silent> <leader>x <cmd>!chmod +x %<CR>
+
+nnoremap <leader>t :NERDTree<CR>
+nnoremap <leader>u :UndotreeToggle<CR>
+nnoremap <leader>g :Git<CR>
