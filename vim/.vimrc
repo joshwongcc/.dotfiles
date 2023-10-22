@@ -1,18 +1,10 @@
 " .vimrc
 
 set nocompatible
-
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-endif
-
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-      \| PlugInstall --sync | source $MYVIMRC
-      \| endif
-
-set nu
-set ai
+set number
+set hidden
+set relativenumber
+set autoindent
 set ruler
 set hlsearch
 set backspace=indent,eol,start
@@ -23,16 +15,55 @@ set expandtab
 set noshowmode
 set nowrap
 set belloff=all
+set scrolloff=8
+set signcolumn=yes
+set colorcolumn=80
 
 syntax on
 colorscheme slate 
+highlight ColorColumn ctermbg=238
 
 if $TERM=='screen-256color'
   set ttymouse=xterm2
 endif
 
-autocmd BufReadPost,FileReadPost,BufNewFile * call system('tmux rename-window ' . expand('%:t'))
-autocmd VimLeave * call system('tmux setw automatic-rename')
+if !isdirectory($HOME."/.vim")
+    call mkdir($HOME."/.vim", "", 0770)
+endif
+
+if !isdirectory($HOME."/.vim/backup")
+    call mkdir($HOME."/.vim/backup", "", 0700)
+endif
+
+if !isdirectory($HOME."/.vim/swap")
+    call mkdir($HOME."/.vim/swap", "", 0700)
+endif
+
+if !isdirectory($HOME."/.vim/undo")
+    call mkdir($HOME."/.vim/undo", "", 0700)
+endif
+
+set backupdir=~/.vim/backup//
+set backup
+set directory=~/.vim/swap//
+set swapfile
+set undodir=~/.vim/undo//
+set undofile
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+      \| PlugInstall --sync | source $MYVIMRC
+      \| endif
+
+autocmd BufReadPost,FileReadPost,BufNewFile * call
+      \ system('tmux rename-window ' . expand('%:t'))
+
+autocmd VimLeave * call
+      \ system('tmux setw automatic-rename')
 
 call plug#begin()
   Plug 'sheerun/vim-polyglot'
@@ -40,6 +71,9 @@ call plug#begin()
   Plug 'mattn/vim-lsp-settings'
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
 call plug#end()
 
 function! s:on_lsp_buffer_enabled() abort
