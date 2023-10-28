@@ -19,8 +19,11 @@ HISTCONTROL=ignoreboth
 
 export VISUAL="/usr/bin/vim"
 export EDITOR="$VISUAL"
+export CLICOLOR=1
 
 export PS1='\[\e[01;97m\]\u@\h:\[\e[m\]\[\e[01;92m\]\w\[\e[m\]\[\e[01;97m\]\$\[\e[m\] '
+
+alias ls='ls --color=auto --group-directories-first'
 
 if [[ -f ~/.bashrc_arch13 ]]; then
   source ~/.bashrc_arch13
