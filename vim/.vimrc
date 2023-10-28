@@ -103,8 +103,6 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-
-let g:NERDTreeQuitOnOpen = 1
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 
@@ -127,6 +125,6 @@ nnoremap <leader>Y "+Y
 nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
 nnoremap <silent> <leader>x <cmd>!chmod +x %<CR>
 
-nnoremap <leader>t :NERDTree<CR>
+nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
 nnoremap <leader>g :Git<CR>
