@@ -19,13 +19,11 @@ HISTCONTROL=ignoreboth
 
 export VISUAL="/usr/bin/vim"
 export EDITOR="$VISUAL"
-export CLICOLOR=1
 
 export PS1='\[\e[01;97m\]\u@\h:\[\e[m\]\[\e[01;92m\]\w\[\e[m\]\[\e[01;97m\]\$\[\e[m\] '
-export PATH=~/.local/bin:usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/snap/bin
 
-export CHROME_EXECUTABLE='/snap/bin/chromium'
-
-source ~/.bashrc_arch13
+if [[ -f ~/.bashrc_arch13 ]]; then
+  source ~/.bashrc_arch13
+fi
 
 
