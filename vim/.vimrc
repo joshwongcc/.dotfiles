@@ -94,9 +94,12 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
 
+    let g:lsp_diagnostics_virtual_text_enabled = 0
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
 endfunction
+
+let g:lsp_diagnostics_float_cursor = 1
 
 augroup lsp_install
     au!
@@ -115,9 +118,10 @@ nnoremap <C-u> <C-u>zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-xnoremap <leader>p "_dP
-nnoremap <leader>d "_d
 vnoremap <leader>d "_d
+nnoremap <leader>d "_d
+vnoremap <leader>p "+p
+nnoremap <leader>p "+p
 vnoremap <leader>y "+y
 nnoremap <leader>y "+y
 nnoremap <leader>Y "+Y
@@ -128,3 +132,5 @@ nnoremap <silent> <leader>x <cmd>!chmod +x %<CR>
 nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
 nnoremap <leader>g :Git<CR>
+
+let g:undotree_SetFocusWhenToggle = 1
