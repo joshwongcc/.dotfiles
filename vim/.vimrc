@@ -17,7 +17,7 @@ set nowrap
 set belloff=all
 set scrolloff=8
 set signcolumn=yes
-set colorcolumn=80
+" set colorcolumn=80
 
 syntax on
 colorscheme slate 
@@ -50,11 +50,11 @@ set swapfile
 set undodir=~/.vim/undo//
 set undofile
 
-autocmd BufReadPost,FileReadPost,BufNewFile * call
+autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter,FocusGained * call
       \ system('tmux rename-window ' . expand('%:t'))
 
 autocmd VimLeave * call
-      \ system('tmux setw automatic-rename')
+      \ system('tmux rename-window bash')
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
