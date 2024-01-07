@@ -93,6 +93,8 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> <expr><c-j> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-k> lsp#scroll(-4)
 
     let g:lsp_diagnostics_virtual_text_enabled = 0
     let g:lsp_format_sync_timeout = 1000
@@ -129,8 +131,11 @@ nnoremap <leader>Y "+Y
 nnoremap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
 nnoremap <silent> <leader>x <cmd>!chmod +x %<CR>
 
+let NERDTreeShowLineNumbers=1
+let g:undotree_SetFocusWhenToggle = 1
+autocmd FileType nerdtree setlocal relativenumber
 nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
 nnoremap <leader>g :Git<CR>
 
-let g:undotree_SetFocusWhenToggle = 1
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 2, {'options': '--delimiter : --nth 4..'}, <bang>0) 
